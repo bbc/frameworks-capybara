@@ -1,4 +1,5 @@
 = Build Status {<img src="https://secure.travis-ci.org/bbc-frameworks/frameworks-capybara.png"/>}[https://secure.travis-ci.org/bbc-frameworks/frameworks-capybara]
+foo
 
 = frameworks-capybara
 
