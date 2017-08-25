@@ -26,7 +26,7 @@ module Frameworks
         @mobile_base_url = @mobiledot_prefix + 'sandbox' + @bbc_domain
         @m_base_url = @mdot_prefix + 'sandbox' + @bbc_domain
       elsif environment == 'live'
-        @base_url = @www_prefix.chop + @bbc_domain
+        @base_url = @cap_prefix.chop + @bbc_domain
         @pal_base_url = @pal_prefix + environment + @bbc_domain
         @ssl_base_url = @ssl_prefix.chop + @bbc_domain
         @static_base_url = @static_prefix.chop + @bbci_domain
@@ -34,7 +34,7 @@ module Frameworks
         @mobile_base_url = @mobiledot_prefix.chop + @bbc_domain
         @m_base_url = @mdot_prefix.chop + @bbc_domain
       else
-        @base_url = @www_prefix + environment + @bbc_domain
+        @base_url = @cap_prefix + environment + @bbc_domain
         @pal_base_url = @pal_prefix + environment + @bbc_domain
         @ssl_base_url = @ssl_prefix + environment + @bbc_domain
         @static_base_url = @static_prefix + environment + @bbci_domain
@@ -83,7 +83,8 @@ module Frameworks
       @ssl_prefix = 'https://ssl.'
       @static_prefix = "#{scheme}://static."
       @open_prefix = "#{scheme}://open."
-      @bbc_domain = '.' + (ENV['FW_BBC_DOMAIN'] || 'bbc.co.uk')
+      @cap_prefix = "#{scheme}://cap-web-app-homepage."
+      @bbc_domain = '.' + (ENV['FW_BBC_DOMAIN'] || 'api.bbc.co.uk')
       @bbci_domain = '.bbci.co.uk'
       @sandbox = "#{scheme}://pal.sandbox.dev"
       @sandbox6 = "#{scheme}://sandbox"
