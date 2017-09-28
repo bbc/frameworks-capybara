@@ -70,11 +70,14 @@ class CapybaraSetup
     # always register in case we are using a configuration that swaps between drivers
     mech_driver = register_mechanize_driver(capybara_opts)
     poltergeist_driver = register_poltergeist_driver(capybara_opts)
+    chromium_driver = register_chromium_driver
     case capybara_opts[:browser]
     when :mechanize then
       @driver = mech_driver
     when :poltergeist then
       @driver = poltergeist_driver
+      when :chromium then
+        @driver = chromium_driver
     else
       @driver = register_selenium_driver(capybara_opts, selenium_remote_opts, custom_opts)
     end
@@ -245,6 +248,20 @@ class CapybaraSetup
       Capybara::Poltergeist::Driver.new(app, options)
     end
     :poltergeist
+  end
+
+
+  def register_chromium_driver
+   puts  Capybara.register_driver  :chromium  do |app|
+    caps = Selenium::WebDriver::Remote::Capabilities.chrome(
+          "chromeOptions" => {
+                'binary' => "/Applications/Google\ Chrome\ Canary.app/Contents/MacOS/Google\ Chrome\ Canary",
+                 'args' => %w{headless disable-gpu window-size=1200,732}})
+    driver = Capybara::Selenium::Driver.new(app,
+                                            browser: :chrome,
+                                            desired_capabilities: caps
+                                              )
+    end
   end
 
   def clean_opts(opts, *args)
