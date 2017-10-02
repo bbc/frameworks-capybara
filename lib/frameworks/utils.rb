@@ -73,6 +73,10 @@ module FrameworksCapybara
       Capybara.page.windows.first.close
     end
 
+    def switch_window
+      Capybara.page.switch_to_window(Capybara.page.windows.last) 
+    end
+
     def wait_until_page_is_fully_loaded
       Timeout.timeout(Capybara.default_max_wait_time) do
         loop until (value = Capybara.page.evaluate_script('document.readyState').eql?('complete'))
