@@ -96,6 +96,10 @@ module FrameworksCapybara
       page.execute_script("arguments[0].scrollIntoView(true);", element)
     end
 
+    def get_random_element(elements)
+        return elements.sample
+    end
+
     def save_and_link_screenshot
       FileUtils.mkdir_p('reports') unless File.directory?('reports')
       current_time = Time.new.strftime('%Y-%m-%d-%H-%M-%S')
