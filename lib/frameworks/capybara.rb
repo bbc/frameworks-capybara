@@ -9,6 +9,7 @@ class CapybaraSetup
   attr_reader :driver
 
   def initialize
+    puts "In initialize method"
     http_proxy = ENV['HTTP_PROXY'] || ENV['http_proxy']
     browser_cli_args = ENV['BROWSER_CLI_ARGS'].split(/\s+/).compact if ENV['BROWSER_CLI_ARGS']
 
@@ -44,8 +45,8 @@ class CapybaraSetup
       browserstack_project: ENV['BS_PROJECT'],
       browserstack_resolution: ENV['BS_RESOLUTION'],
       appium_platform: ENV['APPIUM_PLATFORM'],
-      appium_device: ENV['APPIUM_DEVICE'],
-      appium_browser: ENV['APPIUM_BROWSER'],
+      appium_device: ENV['ADB_DEVICE_ARG'],
+      appium_browser: ENV['BROWSER'],
       appium_udid: ENV['APPIUM_UDID']
     }
     # validate environment variables set using cucumber.yml or passed via command line
@@ -76,6 +77,7 @@ class CapybaraSetup
     when :poltergeist then
       @driver = poltergeist_driver
     else
+      puts "inside else"
       @driver = register_selenium_driver(capybara_opts, selenium_remote_opts, custom_opts)
     end
 
@@ -171,6 +173,7 @@ class CapybaraSetup
   end
 
   def add_appium_caps(caps, custom_opts)
+    puts "inside add_appium_caps"
     caps[:platformName] = custom_opts[:appium_platform] if custom_opts[:appium_platform]
     caps[:deviceName] = custom_opts[:appium_device] if custom_opts[:appium_device]
     caps[:browserName] = custom_opts[:appium_browser] if custom_opts[:appium_browser]
