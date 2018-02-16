@@ -94,6 +94,8 @@ class CapybaraSetup
 
     if custom_opts[:appium_platform]
       [:url].each { |item| !opts.key?(item) || opts[item].nil? ? raise(msg2) : '' }
+    elsif opts[:browser] == 'chrome'
+      [:url, :browser_name].each { |item| !opts.key?(item) || opts[item].nil? ? raise(msg2) : '' }  
     elsif opts[:browser] == 'remote'
       [:url, :browser_name].each { |item| !opts.key?(item) || opts[item].nil? ? raise(msg2) : '' }
     end
@@ -135,7 +137,7 @@ class CapybaraSetup
 
       opts[:switches] = [opts.delete(:chrome_switches)] if opts[:chrome_switches]
 
-      if opts[:browser] == :remote
+      if opts[:browser] == :chrome
         client = Selenium::WebDriver::Remote::Http::Default.new
         client.proxy = set_client_proxy(opts)
 
