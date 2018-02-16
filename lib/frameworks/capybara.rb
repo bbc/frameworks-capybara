@@ -147,8 +147,9 @@ class CapybaraSetup
         # set browserstack specific parameters
         add_browserstack_caps(caps, custom_opts) if remote_opts[:url].include? 'browserstack'
         # set appium specific parameters
+        puts "calling add_appium"
         add_appium_caps(caps, custom_opts) if custom_opts.keys.join.include?('appium')
-
+        puts "after add_appium"
         opts[:desired_capabilities] = caps
         opts[:http_client] = client
       end
