@@ -47,7 +47,7 @@ class CapybaraSetup
       appium_platform: ENV['APPIUM_PLATFORM'],
       appium_device: ENV['ADB_DEVICE_ARG'],
       appium_browser: ENV['BROWSER'],
-      appium_udid: ENV['APPIUM_UDID']
+      appium_udid: ENV['ADB_DEVICE_ARG']
     }
     # validate environment variables set using cucumber.yml or passed via command line
     validate_env_vars(capybara_opts.merge(selenium_remote_opts), custom_opts)
