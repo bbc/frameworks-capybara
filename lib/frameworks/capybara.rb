@@ -149,13 +149,13 @@ class CapybaraSetup
   def register_appium_driver(capybara_opts, selenium_remote_opts, custom_opts)
     desired_caps_android = {
       platform:        "Android",
-      deviceName:      "Nexus",
+      deviceName:      ENV['ADB_DEVICE_ARG'],
       platformName:    "Android", 
-      browserName:     "chrome"
+      browserName:     ENV['BROWSER']
     }
     Capybara.register_driver(:appium) do |app|
       appium_lib_options = {
-        server_url:           "http://localhost:4723/wd/hub"
+        server_url:           "http://127.0.0.1:#{ENV['APPIUM_PORT']}/wd/hub"
       }
       all_options = {
         appium_lib:  appium_lib_options,
