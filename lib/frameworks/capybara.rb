@@ -182,7 +182,7 @@ class CapybaraSetup
     }
     Capybara.register_driver(:appium) do |app|
       appium_lib_options = {
-        server_url: "http://localhost:#{ENV[APPIUM_PORT]}/wd/hub"
+        server_url: "http://localhost:#{ENV['APPIUM_PORT']}/wd/hub"
       }
       all_options = {
         appium_lib: appium_lib_options,
