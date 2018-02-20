@@ -146,26 +146,6 @@ class CapybaraSetup
         end
       end
 
-  def register_appium_driver(capybara_opts, selenium_remote_opts, custom_opts)
-    desired_caps_android = {
-      platform:        "Android",
-      deviceName:      ENV['ADB_DEVICE_ARG'],
-      platformName:    "Android", 
-      browserName:     ENV['BROWSER']
-    }
-    Capybara.register_driver(:appium) do |app|
-      appium_lib_options = {
-        server_url:           "http://127.0.0.1:#{ENV['APPIUM_PORT']}/wd/hub"
-      }
-      all_options = {
-        appium_lib:  appium_lib_options,
-        caps:        desired_caps_android
-      }
-      Appium::Capybara::Driver.new app, all_options
-    end
-    :appium
-  end    
-
       opts[:switches] = [opts.delete(:chrome_switches)] if opts[:chrome_switches]
 
       if opts[:browser] == :chrome
@@ -192,6 +172,25 @@ class CapybaraSetup
     end
     :selenium
   end
+
+  def register_appium_driver(capybara_opts, selenium_remote_opts, custom_opts)
+    desired_caps_android = {
+      deviceName: ENV['ADB_DEVICE_ARG'],
+      platformName: "Android", 
+      browserName: ENV['BROWSER']
+    }
+    Capybara.register_driver(:appium) do |app|
+      appium_lib_options = {
+        server_url: "http://localhost/#{ENV[APPIUM_PORT]}/wd/hub"
+      }
+      all_options = {
+        appium_lib: appium_lib_options,
+        caps: desired_caps_android
+      }
+      Appium::Capybara::Driver.new app, all_options
+    end
+    :appium
+  end    
 
   def add_custom_caps(_caps, custom_opts)
     custom_opts.delete(:max_duration).to_i # note nil.to_i == 0
