@@ -3,6 +3,7 @@ require 'capybara/cucumber'
 require 'capybara/mechanize'
 require 'capybara/poltergeist'
 require 'selenium-webdriver'
+require 'appium_capybara'
 
 # Register drivers
 class CapybaraSetup
@@ -148,7 +149,7 @@ class CapybaraSetup
 
       opts[:switches] = [opts.delete(:chrome_switches)] if opts[:chrome_switches]
 
-      if opts[:browser] == :chrome
+      if opts[:browser] == :remote
         client = Selenium::WebDriver::Remote::Http::Default.new
         client.proxy = set_client_proxy(opts)
 
