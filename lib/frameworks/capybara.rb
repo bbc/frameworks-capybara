@@ -44,7 +44,7 @@ class CapybaraSetup
       browserstack_device_orientation: ENV['BS_DEVICE_ORIENTATION'],
       browserstack_project: ENV['BS_PROJECT'],
       browserstack_resolution: ENV['BS_RESOLUTION'],
-      appium_platform: android,
+      appium_platform: ENV['APPIUM_PLATFORM'],
       appium_device: ENV['ADB_DEVICE_ARG'],
       appium_browser: ENV['BROWSER'],
       appium_udid: ENV['ADB_DEVICE_ARG']
