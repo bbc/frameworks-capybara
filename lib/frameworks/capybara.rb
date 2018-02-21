@@ -190,7 +190,7 @@ class CapybaraSetup
       }
       Appium::Capybara::Driver.new app, all_options
     end
-    :selenium
+    :appium
   end    
 
   def add_custom_caps(_caps, custom_opts)
