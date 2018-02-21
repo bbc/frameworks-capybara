@@ -180,7 +180,7 @@ class CapybaraSetup
       platformName: "Android", 
       browserName: ENV['BROWSER']
     }
-    Capybara.register_driver(:appium) do |app|
+    Capybara.register_driver :appium do |app|
       appium_lib_options = {
         server_url: "http://localhost:#{ENV['APPIUM_PORT']}/wd/hub"
       }
