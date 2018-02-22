@@ -188,9 +188,9 @@ class CapybaraSetup
         appium_lib: appium_lib_options,
         caps: desired_caps_android
       }
-      Capybara::Appium::Driver.new app, all_options
+      Appium::Capybara::Driver.new app, all_options
     end
-    :appium
+    :selenium
   end    
 
   def add_custom_caps(_caps, custom_opts)
