@@ -4,6 +4,7 @@ require 'capybara/mechanize'
 require 'capybara/poltergeist'
 require 'selenium-webdriver'
 require 'appium_capybara'
+require 'show_me_the_cookies'
 
 # Register drivers
 class CapybaraSetup
