@@ -78,7 +78,8 @@ class CapybaraSetup
     when :poltergeist then
       @driver = poltergeist_driver
     else
-      @driver = register_selenium_driver(capybara_opts, selenium_remote_opts, custom_opts)
+      puts 'inside else'
+      # @driver = register_selenium_driver(capybara_opts, selenium_remote_opts, custom_opts)
     end
 
     appium_driver = register_appium_driver(capybara_opts, selenium_remote_opts, custom_opts)
@@ -89,6 +90,7 @@ class CapybaraSetup
       @driver = poltergeist_driver
     when :chrome then
       @driver = appium_driver
+      puts @driver
     else
       puts "inside else"
       @driver = register_selenium_driver(capybara_opts, selenium_remote_opts, custom_opts)
@@ -105,10 +107,13 @@ class CapybaraSetup
     [:environment, :browser].each { |item| !opts.key?(item) || opts[item].nil? ? raise(msg1) : '' }
 
     if custom_opts[:appium_platform]
+      puts 'inside appium_platform'
       [:url].each { |item| !opts.key?(item) || opts[item].nil? ? raise(msg2) : '' }
     elsif opts[:browser] == 'chrome'
+      puts 'inside chrome'
       [:url, :browser_name].each { |item| !opts.key?(item) || opts[item].nil? ? raise(msg2) : '' }  
     elsif opts[:browser] == 'remote'
+      puts 'inside remote'
       [:url, :browser_name].each { |item| !opts.key?(item) || opts[item].nil? ? raise(msg2) : '' }
     end
   end
@@ -179,6 +184,7 @@ class CapybaraSetup
       deviceName: ENV['ADB_DEVICE_ARG'],
       platformName: "Android", 
       browserName: ENV['BROWSER']
+      puts 'inside appium caps'
     }
     Capybara.register_driver :appium do |app|
       appium_lib_options = {
