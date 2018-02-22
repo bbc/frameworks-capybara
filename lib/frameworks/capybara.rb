@@ -11,7 +11,6 @@ class CapybaraSetup
   attr_reader :driver
 
   def initialize
-    puts "In initialize method"
     http_proxy = ENV['HTTP_PROXY'] || ENV['http_proxy']
     browser_cli_args = ENV['BROWSER_CLI_ARGS'].split(/\s+/).compact if ENV['BROWSER_CLI_ARGS']
 
@@ -79,7 +78,6 @@ class CapybaraSetup
     when :poltergeist then
       @driver = poltergeist_driver
     else
-      puts 'inside else'
       # @driver = register_selenium_driver(capybara_opts, selenium_remote_opts, custom_opts)
     end
 
@@ -91,9 +89,7 @@ class CapybaraSetup
       @driver = poltergeist_driver
     when :chrome then
       @driver = appium_driver
-      puts @driver
     else
-      puts "inside else"
       @driver = register_selenium_driver(capybara_opts, selenium_remote_opts, custom_opts)
     end
     Capybara.default_driver = @driver
@@ -109,13 +105,10 @@ class CapybaraSetup
     [:environment, :browser].each { |item| !opts.key?(item) || opts[item].nil? ? raise(msg1) : '' }
 
     if custom_opts[:appium_platform]
-      puts 'inside appium_platform'
       [:url].each { |item| !opts.key?(item) || opts[item].nil? ? raise(msg2) : '' }
     elsif opts[:browser] == 'chrome'
-      puts 'inside chrome'
       [:url, :browser_name].each { |item| !opts.key?(item) || opts[item].nil? ? raise(msg2) : '' }  
     elsif opts[:browser] == 'remote'
-      puts 'inside remote'
       [:url, :browser_name].each { |item| !opts.key?(item) || opts[item].nil? ? raise(msg2) : '' }
     end
   end
@@ -168,9 +161,7 @@ class CapybaraSetup
         # set browserstack specific parameters
         add_browserstack_caps(caps, custom_opts) if remote_opts[:url].include? 'browserstack'
         # set appium specific parameters
-        puts "calling add_appium"
         add_appium_caps(caps, custom_opts) if custom_opts.keys.join.include?('appium')
-        puts "after add_appium"
         opts[:desired_capabilities] = caps
         opts[:http_client] = client
       end
@@ -182,7 +173,6 @@ class CapybaraSetup
   end
 
   def register_appium_driver(capybara_opts, selenium_remote_opts, custom_opts)
-    puts 'inside appium caps'
     desired_caps_android = {
       deviceName: ENV['ADB_DEVICE_ARG'],
       platformName: "Android", 
@@ -215,7 +205,6 @@ class CapybaraSetup
   end
 
   def add_appium_caps(caps, custom_opts)
-    puts "inside add_appium_caps"
     caps[:platformName] = custom_opts[:appium_platform] if custom_opts[:appium_platform]
     caps[:deviceName] = custom_opts[:appium_device] if custom_opts[:appium_device]
     caps[:browserName] = custom_opts[:appium_browser] if custom_opts[:appium_browser]
