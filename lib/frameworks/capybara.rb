@@ -180,11 +180,11 @@ class CapybaraSetup
   end
 
   def register_appium_driver(capybara_opts, selenium_remote_opts, custom_opts)
+    puts 'inside appium caps'
     desired_caps_android = {
       deviceName: ENV['ADB_DEVICE_ARG'],
       platformName: "Android", 
       browserName: ENV['BROWSER']
-      puts 'inside appium caps'
     }
     Capybara.register_driver :appium do |app|
       appium_lib_options = {
