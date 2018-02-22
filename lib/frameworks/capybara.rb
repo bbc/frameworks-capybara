@@ -96,6 +96,7 @@ class CapybaraSetup
       @driver = register_selenium_driver(capybara_opts, selenium_remote_opts, custom_opts)
     end
     Capybara.default_driver = @driver
+    ShowMeTheCookies.register_adapter(:appium, ShowMeTheCookies::Selenium)
   end
 
   private
