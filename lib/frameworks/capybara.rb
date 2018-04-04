@@ -3,6 +3,8 @@ require 'capybara/cucumber'
 require 'capybara/mechanize'
 require 'capybara/poltergeist'
 require 'selenium-webdriver'
+require 'appium_capybara'
+require 'show_me_the_cookies'
 
 # Register drivers
 class CapybaraSetup
@@ -44,9 +46,9 @@ class CapybaraSetup
       browserstack_project: ENV['BS_PROJECT'],
       browserstack_resolution: ENV['BS_RESOLUTION'],
       appium_platform: ENV['APPIUM_PLATFORM'],
-      appium_device: ENV['APPIUM_DEVICE'],
-      appium_browser: ENV['APPIUM_BROWSER'],
-      appium_udid: ENV['APPIUM_UDID']
+      appium_device: ENV['ADB_DEVICE_ARG'],
+      appium_browser: ENV['BROWSER'],
+      appium_udid: ENV['ADB_DEVICE_ARG']
     }
     # validate environment variables set using cucumber.yml or passed via command line
     validate_env_vars(capybara_opts.merge(selenium_remote_opts), custom_opts)
@@ -76,10 +78,22 @@ class CapybaraSetup
     when :poltergeist then
       @driver = poltergeist_driver
     else
-      @driver = register_selenium_driver(capybara_opts, selenium_remote_opts, custom_opts)
+      # @driver = register_selenium_driver(capybara_opts, selenium_remote_opts, custom_opts)
     end
 
+    appium_driver = register_appium_driver(capybara_opts, selenium_remote_opts, custom_opts)
+    case capybara_opts[:browser]
+    when :mechanize then
+      @driver = mech_driver
+    when :poltergeist then
+      @driver = poltergeist_driver
+    when :chrome then
+      @driver = appium_driver
+    else
+      @driver = register_selenium_driver(capybara_opts, selenium_remote_opts, custom_opts)
+    end
     Capybara.default_driver = @driver
+    ShowMeTheCookies.register_adapter(:appium, ShowMeTheCookies::Selenium)
   end
 
   private
@@ -92,6 +106,8 @@ class CapybaraSetup
 
     if custom_opts[:appium_platform]
       [:url].each { |item| !opts.key?(item) || opts[item].nil? ? raise(msg2) : '' }
+    elsif opts[:browser] == 'chrome'
+      [:url, :browser_name].each { |item| !opts.key?(item) || opts[item].nil? ? raise(msg2) : '' }
     elsif opts[:browser] == 'remote'
       [:url, :browser_name].each { |item| !opts.key?(item) || opts[item].nil? ? raise(msg2) : '' }
     end
@@ -155,6 +171,25 @@ class CapybaraSetup
       Capybara::Selenium::Driver.new(app, opts)
     end
     :selenium
+  end
+
+  def register_appium_driver(capybara_opts, selenium_remote_opts, custom_opts)
+      desired_caps_android = {
+          deviceName: ENV['ADB_DEVICE_ARG'],
+          platformName: "Android",
+          browserName: ENV['BROWSER']
+      }
+        Capybara.register_driver :appium do |app|
+          appium_lib_options = {
+              server_url: "http://localhost:#{ENV['APPIUM_PORT']}/wd/hub"
+          }
+          all_options = {
+              appium_lib: appium_lib_options,
+              caps: desired_caps_android
+          }
+          Appium::Capybara::Driver.new app, all_options
+        end
+        :appium
   end
 
   def add_custom_caps(_caps, custom_opts)
