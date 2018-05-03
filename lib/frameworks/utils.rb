@@ -107,6 +107,7 @@ module FrameworksCapybara
       embed "./reports/Screenshot_#{current_time}.png", 'image/png', "Actual screenshot of the error at #{current_url}"
     end
 
+    # To get the parent node of the element
     def parent_node(element, level_up)
       element.first(:xpath, level_up.to_s)
     end
