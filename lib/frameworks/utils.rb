@@ -107,6 +107,10 @@ module FrameworksCapybara
       embed "./reports/Screenshot_#{current_time}.png", 'image/png', "Actual screenshot of the error at #{current_url}"
     end
 
+    def parent_node(element)
+      element.first(:xpath, '..//..')
+    end
+
     def get_console_logs(type)
     case type
     when 'errors'
