@@ -34,7 +34,7 @@ module Frameworks
         @mobile_base_url = @mobiledot_prefix.chop + @bbc_domain
         @m_base_url = @mdot_prefix.chop + @bbc_domain
       else
-        @base_url = @www_prefix + environment + @bbc_domain
+        @base_url = @www_prefix + @bbc_domain
         @pal_base_url = @pal_prefix + environment + @bbc_domain
         @ssl_base_url = @ssl_prefix + environment + @bbc_domain
         @static_base_url = @static_prefix + environment + @bbci_domain
@@ -78,12 +78,12 @@ module Frameworks
 
     def prepare_host
       scheme = ENV['SCHEME'] == 'https' ? 'https' : 'http'
-      @www_prefix = "#{scheme}://www."
+      @www_prefix = "#{scheme}://"
       @pal_prefix = "#{scheme}://pal."
       @ssl_prefix = 'https://ssl.'
       @static_prefix = "#{scheme}://static."
       @open_prefix = "#{scheme}://open."
-      @bbc_domain = '.' + (ENV['FW_BBC_DOMAIN'] || 'bbc.co.uk')
+      @bbc_domain = '.' + (ENV['FW_BBC_DOMAIN'] || 'cap-web-app-homepage.test.api.bbc.co.uk')
       @bbci_domain = '.bbci.co.uk'
       @sandbox = "#{scheme}://pal.sandbox.dev"
       @sandbox6 = "#{scheme}://sandbox"
